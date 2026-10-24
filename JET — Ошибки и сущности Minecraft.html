@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JET — Ошибки и сущности Minecraft</title>
+<style>
+:root{--bg:#07080a;--bg2:#0f1115;--card:#0e1013;--text:#e7e7ea;--mut:#8b8f98;--acc:#d3302f;--acc2:#7c3aed;--bd:#22262d;--danger:#ff4d4d;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#efeaea;--bg2:#e3dcdc;--card:#fff;--text:#1a1416;--mut:#6b5f62;--acc:#b3201f;--acc2:#6d28d9;--bd:#d6cccc;--danger:#c4281f;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;background-image:radial-gradient(900px 400px at 85% -5%,color-mix(in srgb,var(--acc2) 22%,transparent),transparent),radial-gradient(800px 400px at 0% 10%,color-mix(in srgb,var(--acc) 18%,transparent),transparent)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 75%,transparent);border-bottom:1px solid var(--bd)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+.logo i{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-style:normal;font-size:14px}
+nav{display:flex;gap:18px;align-items:center;font-size:14px}
+nav a{color:var(--mut);text-decoration:none}nav a:hover{color:var(--text)}
+button{font:inherit;cursor:pointer}
+.tbtn{background:var(--card);border:1px solid var(--bd);color:var(--text);border-radius:10px;padding:6px 10px}
+.hero{padding:76px 0 40px;text-align:center}
+.pill{display:inline-block;font-size:12px;padding:5px 12px;border-radius:99px;border:1px solid var(--bd);background:var(--card);color:var(--mut)}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.05;margin:18px 0 14px;letter-spacing:-1.5px}
+h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:600px;margin:0 auto;color:var(--mut);font-size:18px}
+.stats{display:flex;justify-content:center;gap:34px;margin-top:34px;flex-wrap:wrap}
+.stats b{display:block;font-size:26px}.stats small{color:var(--mut)}
+h2{font-size:28px;margin:50px 0 6px;letter-spacing:-.5px}
+.sub{color:var(--mut);margin:0 0 22px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{border:1px solid var(--bd);background:var(--card);color:var(--text);padding:6px 14px;border-radius:99px;font-size:14px}
+.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;overflow:hidden;text-align:left;color:inherit;padding:0;transition:.2s}
+.card:hover{transform:translateY(-6px);border-color:var(--acc);box-shadow:0 18px 40px -18px var(--acc)}
+.pic{aspect-ratio:1;display:grid;place-items:center;background:linear-gradient(160deg,var(--bg2),var(--bg));padding:26px}
+.pic svg{width:100%;height:100%;image-rendering:pixelated;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+.cb{padding:14px 16px 18px}
+.cb h3{margin:0 0 4px;font-size:19px}
+.cb p{margin:0 0 12px;color:var(--mut);font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--mut)}
+.skull{letter-spacing:2px;color:var(--danger)}
+.skull s{text-decoration:none;opacity:.25;color:var(--mut)}
+.about{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px}
+.box h4{margin:0 0 6px}.box p{margin:0;color:var(--mut);font-size:14px}
+footer{margin:70px 0 30px;border-top:1px solid var(--bd);padding-top:24px;color:var(--mut);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);padding:16px}
+.modal.open{display:flex}
+.sheet{background:var(--card);border:1px solid var(--bd);border-radius:22px;max-width:760px;width:100%;max-height:90vh;overflow:auto;position:relative;animation:up .25s ease}
+@keyframes up{from{transform:translateY(20px);opacity:0}}
+.mh{display:flex;gap:18px;align-items:center;padding:24px;background:linear-gradient(160deg,var(--bg2),var(--card));border-bottom:1px solid var(--bd)}
+.mh .pic{width:110px;flex:none;padding:10px;border-radius:14px;aspect-ratio:1}
+.mh h2{margin:0 0 6px;font-size:28px}
+.x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:var(--card);color:var(--text);font-size:18px}
+.mb{padding:22px 24px 26px}
+.auth{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.auth small{color:var(--mut);display:block;line-height:1.2}
+.mb h5{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--acc);margin:22px 0 8px}
+ol{padding-left:20px;margin:0}ol li{margin-bottom:8px}
+.code{position:relative;background:#0a0f0b;color:#7dff9f;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;padding:14px 70px 14px 14px;border-radius:12px;word-break:break-all}
+.cp{position:absolute;top:8px;right:8px;font-size:12px;background:#1d2b21;color:#cfe;border:1px solid #2f4535;border-radius:8px;padding:4px 9px}
+.warn{margin-top:20px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--danger) 14%,transparent);border:1px solid color-mix(in srgb,var(--danger) 45%,transparent);font-size:13px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:12px;padding:3px 10px;border-radius:99px;border:1px solid var(--bd);color:var(--mut)}
+@media(max-width:560px){nav a{display:none}.mh{flex-direction:column;align-items:flex-start;padding-top:56px}}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.65) 100%)}
+:root[data-theme="light"] body::before{display:none}
+.hero h1 span{animation:flick 6s infinite}
+@keyframes flick{0%,90%,100%{opacity:1}91%{opacity:.35}92%{opacity:1}95%{opacity:.6}96%{opacity:1}}
+.pic{position:relative}.pic::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 2px,transparent 2px 4px);pointer-events:none}
+.card:hover .pic svg{filter:drop-shadow(0 0 14px var(--acc))}
+section{scroll-margin-top:70px}
+.notice{margin:18px 0 0;padding:12px 16px;border:1px solid var(--bd);border-radius:12px;background:var(--card);font-size:14px;color:var(--mut)}
+.hl{background:#ffd84a;color:#1a1400;padding:1px 8px;border-radius:6px;border:0;cursor:pointer;font:inherit;font-weight:700;text-decoration:none}
+.hl:hover{filter:brightness(1.08)}
+.foot-note{margin:40px 0 0;color:var(--mut);font-size:13px;text-align:center}
+.page{display:none}.page.on{display:block}
+.back{background:none;border:0;color:var(--mut);padding:0;margin:26px 0 0;font-size:14px}.back:hover{color:var(--text)}
+.role{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:18px}
+.ex{margin:12px 0;padding:12px 14px;border-left:3px solid #ffd84a;background:var(--bg2);border-radius:0 10px 10px 0;font-size:14px;color:var(--text)}
+.mail{display:inline-block;margin:8px 0;padding:8px 14px;border-radius:10px;background:var(--bg2);border:1px solid var(--bd);font:14px ui-monospace,Menlo,Consolas,monospace;color:var(--text);word-break:break-all;text-decoration:none}
+.closed{margin:12px 0 0;font-size:13px;color:var(--danger)}
+.chatbox{margin:60px auto;max-width:480px;text-align:center;padding:36px 24px}
+@media(max-width:560px){nav a.keep{display:inline}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<div class="logo" data-go="home" style="cursor:pointer"><i>JET</i><span>JavaErrorTeam</span></div>
+<nav><a href="#entities" data-go="home" data-scroll="entities">Сущности</a><a href="#about" data-go="home" data-scroll="about">О нас</a><a href="#members" data-go="members">Участники</a><a href="#chat" data-go="chat" class="keep">💬 Чат</a><button class="tbtn" id="theme" aria-label="Тема">◐</button></nav>
+</div></header>
+
+<main class="wrap">
+<div class="page on" id="p-home">
+<div class="notice">*Внимание: для каждого ритуала требуется командный блок и специальная команда, которая выдаётся <button class="hl" data-go="members">участникам</button>.</div>
+<section class="hero">
+<span class="pill">⛧ Java Edition · архив проклятых глюков</span>
+<h1>Не заходи в этот мир<br><span>после полуночи</span></h1>
+<p>Архив ошибок Minecraft, забытых богов и тех, кто смотрит из тумана. У каждого — авторы расследования и ритуал призыва. Не веришь — попробуй призвать сам.</p>
+<div class="stats"><div><b>14</b><small>сущностей в архиве</small></div><div><b>10</b><small>авторов в команде</small></div><div><b>∞</b><small>ночей без сна</small></div></div>
+</section>
+
+<section id="entities">
+<h2>Архив сущностей</h2>
+<p class="sub">Нажми на карточку — откроется ритуал призыва.</p>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+</section>
+
+<section id="about">
+<h2>Кто мы</h2>
+<p class="sub">JavaErrorTeam (JET) — команда и огромное сообщество игроков. Мы вместе создаём ошибки, чтобы скрасить скучные миры Minecraft: кто-то находит след, кто-то рисует, кто-то проверяет ритуал.</p>
+<div class="about">
+<div class="box"><h4>🔍 Расследуем</h4><p>Собираем свидетельства игроков и выясняем, где и когда сущность появилась впервые.</p></div>
+<div class="box"><h4>🕯 Воскрешаем</h4><p>Вместе с сообществом придумываем ритуалы, чтобы оживить легенду в своём мире.</p></div>
+<div class="box"><h4>🛡 Безопасно</h4><p>Всё работает только в твоём мире — никаких вирусов и модов.</p></div>
+<div class="box" style="grid-column:1/-1;text-align:center"><h4>Не веришь?</h4><p>Попробуй призвать любую из них сам — ритуалы лежат в карточках выше. Только потом не говори, что мы не предупреждали.</p><p style="margin-top:14px"><a class="chip on" href="#entities" style="text-decoration:none;display:inline-block">Выбрать сущность</a></p></div>
+</div>
+</section>
+
+<p class="foot-note">*В данный момент новые участники и модераторы не принимаются. Приносим извинения.</p>
+</div>
+
+<div class="page" id="p-members">
+<button class="back" data-go="home">← На главную</button>
+<h2>Как стать участником или модератором</h2>
+<p class="sub">Специальная команда для ритуалов выдаётся только участникам сообщества JET. Чтобы получить роль, напиши нам на почту — и, пожалуйста, пиши вежливо.</p>
+<div class="box"><h4>✉ Наша почта</h4><a class="mail" href="mailto:forclalude759@gmail.com">forclalude759@gmail.com</a><p>Укажи свой игровой ник, коротко расскажи о себе и объясни, почему хочешь в команду.</p></div>
+<div class="role">
+<div class="box"><h4>🟡 Участник</h4><p>Получает специальную команду для ритуалов и может предлагать новые сущности для архива.</p>
+<div class="ex"><b>Пример письма:</b><br>«Здравствуйте! Хочу получить роль участника на вашем сервере, ведь я популярный блогер (например, веду канал про Minecraft). Мой ник: ваш_ник. С уважением, ваше имя.»</div>
+<p class="closed">*В данный момент новые участники не принимаются. Приносим извинения.</p></div>
+<div class="box"><h4>🛡 Модератор</h4><p>Следит за порядком в сообществе и проверяет новые ритуалы перед публикацией.</p>
+<div class="ex"><b>Пример письма:</b><br>«Здравствуйте! Хочу получить роль модератора на вашем сервере. Давно играю в Minecraft, знаю правила сообщества и готов следить за порядком. Мой ник: ваш_ник. С уважением, ваше имя.»</div>
+<p class="closed">*В данный момент модераторы не принимаются. Приносим извинения.</p></div>
+</div>
+<p class="foot-note">*В данный момент новые участники и модераторы не принимаются. Приносим извинения.</p>
+</div>
+
+<div class="page" id="p-chat">
+<button class="back" data-go="home">← На главную</button>
+<div class="box chatbox"><div style="font-size:42px">💬</div><h2 style="margin:10px 0 6px">Чат пока не работает</h2><p class="sub" style="margin:0">Мы его ещё настраиваем. Загляни позже.</p></div>
+</div>
+
+<footer><span>© 2026 JavaErrorTeam (JET). Fan project.</span><span>Не связано с Mojang и Microsoft.</span></footer>
+</main>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+var PAL={
+ h:{H:'#3b2a1a',S:'#c28a62',W:'#ffffff',N:'#8a5a3c',M:'#5a3a2a',B:'#3a56b8'},
+ n:{H:'#0c0c0c',S:'#161616',W:'#ffffff',N:'#0c0c0c',M:'#0c0c0c',B:'#0c0c0c'},
+ e:{H:'#2a2a2a',S:'#7d8a82',W:'#ff2b2b',N:'#4d574f',M:'#2a1010',B:'#ff2b2b'},
+ c:{H:'#b9bdb3',S:'#d6d9cf',W:'#111111',N:'#aaaea4',M:'#111111',B:'#111111'}
+};
+var FACE=['HHHHHHHH','HHHHHHHH','HSSSSSSH','SWWSSWWS','SSSNNSSS','SSMMMMSS','SSMSSMSS','SSSSSSSS'];
+var CAVE=['HHHHHHHH','HSSSSSSH','SWWSSWWS','SWWSSWWS','SSSNNSSS','SSMMMMSS','SSMMMMSS','HSSSSSSH'];
+var ENT=[
+{id:'herobrine',pal:'h',grid:FACE,glow:'#fff',name:'Herobrine',tag:'Легенда',danger:3,year:2010,desc:'Брат-призрак Стива с белыми глазами. Якобы появляется в одиночных мирах и меняет их.',
+ author:'NullByte',role:'Главный исследователь',date:'12 марта 2026',
+ how:'Согласно легенде, Херобрин — это игрок, который «застрял» в мире. Он строит странные тоннели 1×2, ставит песчаные пирамиды и зажигает факелы там, где вы их не ставили. На деле это всё сид-гены и ваши же постройки — но атмосфера великолепна.',
+ steps:['Создай новый мир в Creative, версия 1.20.4.','Построй пирамиду 3×3 из незер-рака и на вершину положи блок золота.','Поставь по красному факелу с каждой стороны от блока золота.','Подожги верхушку пирамиды — по легенде появится Херобрин.','Дождись ночи в игре и не оглядывайся.'],
+ note:'Mojang подтверждает: Херобрина в игре никогда не было. Это просто мем. Ритуал — просто игра на атмосферу.'},
+{id:'null',pal:'n',grid:FACE,glow:'#fff',name:'Null',tag:'Крипипаста',danger:4,year:2012,desc:'Тёмная фигура без лица — «брат» Херобрина. Любит стирать чанки и ломать миры.',
+ author:'Dark_Pixel',role:'Сценарист и аниматор',date:'2 апреля 2026',
+ how:'Null — персонаж из фан-историй: его появление сопровождается пропажей текстур и «чёрными дырами» в ландшафте. Мы воссоздаём это при помощи затемнения и пустоты, без каких-либо модов.',
+ steps:['Выбери пустую область размером 10×10 блоков в Creative-мире.','Выложи её блоками чёрного бетона.','Поставь по краям 4 факела душ для зловещего света.','Встань в центре, дождись полуночи и не двигайся минуту.'],
+ note:'Null не существует в коде игры. Персонаж придуман фанатами в 2010-х.'},
+{id:'e303',pal:'e',grid:FACE,glow:'#ff2b2b',name:'Entity 303',tag:'Крипипаста',danger:5,year:2013,desc:'Красноглазый «хакер», который якобы банит игроков и портит сохранения.',
+ author:'CreeperKiller',role:'Тестировщик датапаков',date:'19 мая 2026',
+ how:'История гласит, что Entity 303 — бывший разработчик, чей аккаунт был удалён. Любит «ломать» сервера: ставит блоки там, где не должен, ломает инвентарь. В нашей версии — только ритуал и атмосфера.',
+ steps:['Создай мир в режиме Adventure и отключи подсказки.','Построй комнату 5×5 из обсидиана.','Посреди комнаты поставь красную табличку с цифрами 303 и выйди.','Вернись через игровую ночь: если таблички нет — он уже здесь.'],
+ note:'Entity 303 — вымышленный персонаж. Реальных «хакеров-призраков» в Minecraft нет.'},
+{id:'cave',pal:'c',grid:CAVE,glow:'#fff',name:'Cave Dweller',tag:'Фан-мод',danger:4,year:2018,desc:'Бледное существо из пещер: ползает по потолку, подражает звукам, нападает ночью.',
+ author:'Ghost_Miner',role:'Звуковой дизайнер',date:'7 июня 2026',
+ how:'Cave Dweller — моб из популярного мода. Он двигается быстро, умеет прятаться во тьме и издаёт жуткие звуки. Мы воссоздаём его через тьму, тишину и звук шагов.',
+ steps:['Найди пещеру с высоким потолком и тёмным светом.','Убери факелы — пусть остаётся полная темнота.','Встань в центре и напиши в чат «Я здесь».','Играй с наушниками для лучшего эффекта.'],
+ note:'Это фан-мод, не часть оригинальной игры. Мы не распространяем сам мод — только пересказ легенды.'},
+{id:'missing',pal:null,grid:null,glow:'#a78bfa',name:'Missing Texture',tag:'Реальный баг',danger:1,year:2009,desc:'Фиолетово-чёрная клетка, которую видишь, когда игре не хватает текстуры. Единственная «сущность», которая реально существует.',
+ author:'Ghost_Miner',role:'Звуковой дизайнер',date:'28 июня 2026',
+ how:'Когда Minecraft не находит файл текстуры, он рисует розово-чёрную шахматку 2×2. Это не привидение, а стандартный «заглушечный» ресурс. Можно вызвать его самому — это самый безопасный ритуал на сайте.',
+ steps:['Скопируй свой ресурспак (или создай новый) в папку resourcepacks.','Открой его через архиватор и перейди в assets/minecraft/textures/block.','Удали файл dirt.png и включи ресурспак в игре.','Поставь блок земли — вместо текстуры появится фиолетово-чёрная клетка.'],
+ note:'Ничего не сломается: верни файл обратно, и всё вернётся как было.'}
+];
+PAL.el={H:'#2a1750',F:'#0d0a14',R:'#ff5a1f',B:'#4cc9ff',G:'#7dff4c',Y:'#ffe14c'};
+PAL.bk={C:'#ff9d00',Y:'#f2c230',K:'#1a1208',E:'#ff2b2b',M:'#5a2a00'};
+PAL.bq={P:'#b455ff',R:'#ff3b7a',Y:'#f2c230',E:'#7a0040',K:'#1a1208',L:'#ff3b7a'};
+PAL.mn={H:'#5c5f66',L:'#ffd84a',S:'#b9b2a2',E:'#111',N:'#8f8878',D:'#2b2b2b'};
+PAL.ch={G:'#4aa03a',D:'#6b4a2b',W:'#fff',T:'#1a0000'};
+PAL.mc={G:'#aeb9d6',K:'#1d2340',C:'#8e9ac0'};
+PAL.fw={P:'#cfd6d9',D:'#0a0a0a'};
+PAL.vz={H:'#6b4a2b',S:'#b58a6b',B:'#3b2a1a',G:'#7dff4c',N:'#8a6247'};
+PAL.ee={K:'#0b0b10',P:'#e879f9',V:'#7c3aed'};
+ENT=ENT.concat([
+{id:'elem',pal:'el',grid:['..HHHH..','.HHHHHH.','HHFFFFHH','HFRFFBFH','HFFFFFFH','HHFGGFHH','HYHHHHYH','.HHHHHH.'],name:'Элементалист',tag:'Босс',danger:4,year:2023,desc:'Фигура в капюшоне с глазами-стихиями. Приходит туда, где слишком много огня, льда, земли и грома.',
+ author:'Dark_Pixel',role:'Сценарист и аниматор',date:'14 июля 2026',
+ how:'Легенда гласит, что он питается балансом стихий: чем больше разных биомов рядом, тем он сильнее.',
+ steps:['Найди место, где сходятся снег, пустыня, лес и горы.','В центре выложи крест: магма-блок на юге, лёд на севере, земля на западе, громоотвод на востоке.','Встань посередине и дождись грозы.','Когда молния ударит в громоотвод — не уходи. Он выйдет из дыма.'],
+ note:'Фан-персонаж JET. В оригинальной игре его нет.'},
+{id:'beeking',pal:'bk',grid:['.C.CC.C.','.CCCCCC.','YYYYYYYY','YEEYYEEY','YYYYYYYY','KKKKKKKK','YYMMMMYY','YYYYYYYY'],name:'Король Пчёл',tag:'Босс',danger:3,year:2022,desc:'Огромная пчела в короне. Правит ульями и злится, когда рядом ломают мёд.',
+ author:'CreeperKiller',role:'Тестировщик датапаков',date:'30 июля 2026',
+ how:'Когда в одном месте слишком много ульев, они «выбирают» короля. Его жужжание слышно только в наушниках.',
+ steps:['Поставь 9 ульев кругом и посади вокруг цветы.','В центр круга положи блок мёда, а на него — золотой слиток.','Ночью разведи рядом костёр: дым привлекает пчёл.','Напиши в чат «Король, выйди» и стой неподвижно.'],
+ note:'Выдумка. Настоящие пчёлы безобидны, пока их не злишь.'},
+{id:'beequeen',pal:'bq',grid:['.P.PP.P.','.PRPPRP.','YYYYYYYY','YEEYYEEY','YYYYYYYY','KKKKKKKK','YYLLLLYY','YYYYYYYY'],name:'Королева Пчёл',tag:'Босс',danger:4,year:2022,desc:'Супруга Короля. Он жужжит, она говорит. Тише его, но намного опаснее.',
+ author:'Ghost_Miner',role:'Звуковой дизайнер',date:'9 августа 2026',
+ how:'Появляется только после Короля. Они никогда не показываются вместе: просто пчёл вдруг становится вдвое больше.',
+ steps:['Сначала проведи ритуал Короля и дождись его.','Построй рядом второй круг ульев — вдвое больше первого.','В центр поставь цветущую азалию и зажги свечу.','Не смотри на Короля 60 секунд — она подойдёт сама.'],
+ note:'Выдумка JET. Королева — часть нашей пчелиной мифологии.'},
+{id:'miner',pal:'mn',grid:['.HHHHHH.','HHHLLHHH','HSSSSSSH','SEESSEES','SSSNNSSS','SSDDDDSS','DDDDDDDD','DSDSDDSD'],name:'Забытый Шахтёр',tag:'Проклятие',danger:3,year:2015,desc:'Призрак с лампой на каске. Стучит киркой в стену, когда рядом никого нет.',
+ author:'NullByte',role:'Главный исследователь',date:'21 августа 2026',
+ how:'Шахтёр потерялся под землёй. Он не нападает, а зовёт за собой вглубь, туда, где становится тихо.',
+ steps:['Найди заброшенную шахту или выкопай тоннель на уровне Y=-20.','Оставь у входа один факел, остальные убери.','Три раза постучи киркой по камню.','Иди вглубь, не оглядываясь, пока не услышишь стук в ответ.'],
+ note:'Выдумка. Но заброшенные шахты и правда пугающие.'},
+{id:'chunk',pal:'ch',grid:['GGGGGGGG','GDGGGGDG','DDDDDDDD','DWDDDDWD','DDDDDDDD','TWTWTWTW','WTWTWTWT','DDDDDDDD'],name:'Чанк-Пожиратель',tag:'Проклятие',danger:4,year:2011,desc:'Дыра в земле с зубами. Съедает чанки, а потом и целые миры.',
+ author:'Dark_Pixel',role:'Сценарист и аниматор',date:'3 сентября 2026',
+ how:'Игра грузит мир кусками 16×16. Если чанк не догрузился, остаётся пустота. Легенда сделала из неё монстра.',
+ steps:['Найди равнину и выкопай яму 16×16 до самого дна.','По краю положи ряд блоков земли — это «зубы».','Отойди на 200 блоков и вернись.','Если ямы больше нет — он наелся.'],
+ note:'Пустые чанки — настоящий баг. Монстр — выдумка.'},
+{id:'mooncreeper',pal:'mc',grid:['GGCGGGGG','GGGGGCGG','GKKGGKKG','GKKGGKKG','GGGKKGGG','GGKKKKGG','GGKKKKGG','GGKGGKGG'],name:'Лунный Крипер',tag:'Крипипаста',danger:3,year:2019,desc:'Серый крипер в кратерах. Не взрывается, а тихо шипит до рассвета.',
+ author:'CreeperKiller',role:'Тестировщик датапаков',date:'17 сентября 2026',
+ how:'Рождается в полнолуние, когда рядом нет ни одного зелёного крипера. Не наносит урона, но забирает свет.',
+ steps:['Дождись полнолуния (оно повторяется раз в 8 дней).','Выложи площадку 5×5 из серого бетона и поставь по углам снег.','Встань в центре и жди шипения за спиной.','Не бей его — просто смотри на луну.'],
+ note:'Выдумка JET.'},
+{id:'fog',pal:'fw',grid:['...PP...','..PPPP..','.PPPPPP.','.PDPPDP.','.PPPPPP.','.PPDDPP.','..PPPP..','...PP...'],name:'Туманный Странник',tag:'Крипипаста',danger:3,year:2017,desc:'Высокая бледная фигура в тумане. Подходит, только когда отвернёшься.',
+ author:'Ghost_Miner',role:'Звуковой дизайнер',date:'1 октября 2026',
+ how:'Если долго стоять на опушке в тумане, фигура приближается на блок, пока ты не смотришь.',
+ steps:['Выбери болото или тайгу, там туман гуще.','На рассвете поставь два забора крестом.','Смотри на крест две минуты и не оборачивайся.','Обернись и посчитай блоки до него.'],
+ note:'Выдумка. Но оборачиваться всё равно страшно.'},
+{id:'villager0',pal:'vz',grid:['HHHHHHHH','HHHHHHHH','SSSSSSSS','BBBBBBBB','SGGSSGGS','SSSNNSSS','SSSNNSSS','SSSSSSSS'],name:'Нулевой Житель',tag:'Проклятие',danger:2,year:2014,desc:'Житель без профессии с зелёными глазами. Торгует, но ничего не продаёт.',
+ author:'NullByte',role:'Главный исследователь',date:'8 октября 2026',
+ how:'Житель, которому не досталось работы: он не ходит и не спит, а только смотрит на кровать, которой нет.',
+ steps:['Найди деревню и убери все кровати и рабочие блоки.','Запри одного жителя в доме без двери.','Подожди три игровых дня, не заходя к нему.','Открой стену и посмотри ему в глаза — они позеленеют.'],
+ note:'Выдумка. Жители без работы просто стоят.'},
+{id:'echo',pal:'ee',grid:['KKKKKKKK','KKKKKKKK','KKKKKKKK','KPPKKPPK','KKKKKKKK','KKKKKKKK','KKVKKVKK','VKKKKKKV'],name:'Эндер-Эхо',tag:'Крипипаста',danger:3,year:2020,desc:'Эндермен-призрак, повторяющий твои шаги с задержкой в три секунды.',
+ author:'Dark_Pixel',role:'Сценарист и аниматор',date:'15 октября 2026',
+ how:'Говорят, это отражение игрока из Края: он двигается так же, но на шаг позади и смотрит прямо в глаза.',
+ steps:['Возьми жемчуг Края (можно в творческом режиме).','Построй узкий коридор 1×6 из обсидиана.','Встань посередине и брось жемчуг в стену, потом в обратную.','Не двигайся: эхо повторит каждый твой шаг.'],
+ note:'Выдумка JET. Настоящих «отражений» в игре нет.'}
+]);
+var ROLE={NullByte:'Главный исследователь',Dark_Pixel:'Сценарист и аниматор',CreeperKiller:'Тестировщик ритуалов',Ghost_Miner:'Звуковой дизайнер',Redstone_Witch:'Редстоун-инженер',EnderFox:'Хранитель лора',PixelReaper:'Пиксель-арт',Lunar_Steve:'Комьюнити-менеджер',Obsidian_Ray:'Билдер',Moss_Wolf:'Полевой исследователь'};
+var AU={herobrine:['NullByte','EnderFox','Lunar_Steve'],'null':['Dark_Pixel'],e303:['CreeperKiller','Redstone_Witch'],cave:['Ghost_Miner'],missing:['Ghost_Miner','PixelReaper'],elem:['Dark_Pixel','Redstone_Witch','Obsidian_Ray'],beeking:['CreeperKiller','Moss_Wolf'],beequeen:['Ghost_Miner','Moss_Wolf','EnderFox'],miner:['NullByte'],chunk:['Dark_Pixel','PixelReaper'],mooncreeper:['CreeperKiller'],fog:['Ghost_Miner','Lunar_Steve'],villager0:['NullByte','Obsidian_Ray'],echo:['Dark_Pixel','EnderFox']};
+ENT.forEach(function(e){e.team=AU[e.id]});
+function authBlock(e){var t=e.team,one=t.length===1;
+ var av=t.map(function(n,i){return '<div class="av" style="'+(i?'margin-left:-10px;':'')+'border:2px solid var(--card)">'+n[0]+'</div>'}).join('');
+ return '<div class="auth">'+av+'<div><b>'+t.join(', ')+'</b><small>'+(one?ROLE[t[0]]:'Авторы расследования')+' · JET · '+e.date+'</small></div></div>'+(one?'':'<div class="tags" style="margin:-4px 0 12px">'+t.map(function(n){return '<span class="tag">'+n+' — '+ROLE[n]+'</span>'}).join('')+'</div>')}
+function px(e){
+ var s='<svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">';
+ if(e.id==='missing'){for(var y=0;y<8;y++)for(var x=0;x<8;x++){s+='<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="'+(((x>>2)+(y>>2))%2?'#111':'#d400d4')+'"/>'}}
+ else{var p=PAL[e.pal];for(var y=0;y<8;y++)for(var x=0;x<8;x++){var c=p[e.grid[y][x]];if(c)s+='<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="'+c+'"/>'}}
+ return s+'</svg>';
+}
+function skull(n){var s='';for(var i=1;i<=5;i++)s+=i<=n?'☠':'<s>☠</s>';return '<span class="skull">'+s+'</span>'}
+var cur='Все',grid=document.getElementById('grid'),chips=document.getElementById('chips');
+function render(){
+ grid.innerHTML='';
+ ENT.filter(function(e){return cur==='Все'||e.tag===cur}).forEach(function(e){
+  var b=document.createElement('button');b.className='card';
+  b.innerHTML='<div class="pic">'+px(e)+'</div><div class="cb"><h3>'+e.name+'</h3><p>'+e.desc+'</p><div class="row"><span>'+e.team[0]+(e.team.length>1?' +'+(e.team.length-1):'')+'</span>'+skull(e.danger)+'</div></div>';
+  b.onclick=function(){openM(e)};grid.appendChild(b);
+ });
+}
+function drawChips(){
+ var tags=['Все'];ENT.forEach(function(e){if(tags.indexOf(e.tag)<0)tags.push(e.tag)});
+ chips.innerHTML='';tags.forEach(function(t){var c=document.createElement('button');c.className='chip'+(t===cur?' on':'');c.textContent=t;c.onclick=function(){cur=t;drawChips();render()};chips.appendChild(c)});
+}
+var modal=document.getElementById('modal'),sheet=document.getElementById('sheet');
+function openM(e){
+ var steps=e.steps.map(function(s){return '<li>'+s+'</li>'}).join('');
+ sheet.innerHTML='<button class="x" aria-label="Закрыть">✕</button>'+
+ '<div class="mh"><div class="pic">'+px(e)+'</div><div><h2>'+e.name+'</h2><div class="tags"><span class="tag">'+e.tag+'</span><span class="tag">с '+e.year+' года</span><span class="tag">Опасность: '+e.danger+'/5</span></div></div></div>'+
+ '<div class="mb">'+authBlock(e)+''+
+ '<h5>Как это работает</h5><p style="margin:0">'+e.how+'</p>'+
+ '<h5>Как вызвать</h5><ol>'+steps+'</ol>'+
+ '</div>';
+ sheet.querySelector('.x').onclick=closeM;
+ modal.classList.add('open');document.body.style.overflow='hidden';sheet.scrollTop=0;
+}
+function closeM(){modal.classList.remove('open');document.body.style.overflow=''}
+modal.onclick=function(ev){if(ev.target===modal)closeM()};
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape')closeM()});
+document.getElementById('theme').onclick=function(){var r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'};
+function go(name,scroll){
+ ['home','members','chat'].forEach(function(n){document.getElementById('p-'+n).classList.toggle('on',n===name)});
+ closeM();
+ var el=scroll&&document.getElementById(scroll);
+ if(el)setTimeout(function(){el.scrollIntoView({behavior:'smooth'})},30);else window.scrollTo(0,0);
+}
+document.addEventListener('click',function(ev){var t=ev.target.closest('[data-go]');if(!t)return;ev.preventDefault();go(t.dataset.go,t.dataset.scroll)});
+var h0=(location.hash||'').slice(1);if(h0==='members'||h0==='chat')go(h0);
+drawChips();render();
+</script>
+</body>
+</html>
